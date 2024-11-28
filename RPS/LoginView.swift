@@ -13,10 +13,16 @@ struct LoginView: View {
     @State private var isLoginValid: Bool = false
     @State private var showContentView: Bool = false
     @State private var nicknameError: String? = nil
+    @State private var viewOpacity: Double = 0.0
     
     var body: some View {
         NavigationStack {
             VStack {
+                Text("登入/註冊")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding(.bottom, 20)
+                
                 if let nicknameError = nicknameError {
                     Text(nicknameError)
                         .foregroundColor(.red)
@@ -57,11 +63,17 @@ struct LoginView: View {
                 }
                 .disabled(!isLoginValid)
                 .navigationDestination(isPresented: $showContentView) {
-                    ContentView()
+                    HallView()
                         .navigationBarBackButtonHidden(true)
                 }
             }
             .padding()
+            .opacity(viewOpacity)
+            .onAppear {
+                withAnimation(.easeIn(duration: 0.5)) {
+                    viewOpacity = 1.0
+                }
+            }
         }
     }
     

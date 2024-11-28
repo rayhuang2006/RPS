@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HallView.swift
 //  RPS
 //
 //  Created by Ray Huang on 2024/11/27.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct HallView: View {
     @State private var spacing: CGFloat = 20.0
     
     var body: some View {
@@ -142,6 +142,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    HallView()
 }
 
