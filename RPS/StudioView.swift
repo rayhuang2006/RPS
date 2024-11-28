@@ -38,8 +38,7 @@ struct StudioView: View {
     }
 }
 
-struct StudioView_Previews: PreviewProvider {
-    static var previews: some View {
-        StudioView()
-    }
+#Preview {
+    StudioView()
 }
+
