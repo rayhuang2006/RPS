@@ -8,36 +8,45 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var nickname: String = ""
+    @State private var email: String = ""
     @State private var password: String = ""
     @State private var isLoginValid: Bool = false
     @State private var showContentView: Bool = false
-    @State private var nicknameError: String? = nil
+    @State private var showRegisterView: Bool = false
+    @State private var emailError: String? = nil
+    @State private var passwordError: String? = nil
     @State private var viewOpacity: Double = 0.0
     
     var body: some View {
         NavigationStack {
             VStack {
-                Text("登入/註冊")
+                Text("登入 / 註冊")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.bottom, 20)
                 
-                if let nicknameError = nicknameError {
-                    Text(nicknameError)
+                if let emailError = emailError {
+                    Text(emailError)
                         .foregroundColor(.red)
                         .font(.caption)
                         .padding(.bottom, 5)
                 }
                 
-                TextField("帳號暱稱", text: $nickname)
+                TextField("電子郵件", text: $email)
                     .padding()
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(5)
                     .padding(.bottom, 20)
-                    .onChange(of: nickname) {
+                    .onChange(of: email) {
                         validateLogin()
                     }
+                
+                if let passwordError = passwordError {
+                    Text(passwordError)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .padding(.bottom, 5)
+                }
                 
                 SecureField("帳號密碼", text: $password)
                     .padding()
@@ -48,22 +57,43 @@ struct LoginView: View {
                         validateLogin()
                     }
                 
-                Button(action: {
-                    if isLoginValid {
-                        showContentView = true
+                HStack {
+                    Button(action: {
+                        if isLoginValid {
+                            showContentView = true
+                        }
+                    }) {
+                        Text("登入")
+                            .font(.title2)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(isLoginValid ? Color.black : Color.gray.opacity(0.2))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                     }
-                }) {
-                    Text("登入/註冊")
-                        .font(.title2)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(isLoginValid ? Color.black : Color.gray.opacity(0.2))
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    .disabled(!isLoginValid)
+                    
+                    Button(action: {
+                        if isLoginValid {
+                            showRegisterView = true
+                        }
+                    }) {
+                        Text("註冊")
+                            .font(.title2)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(isLoginValid ? Color.black : Color.gray.opacity(0.2))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .disabled(!isLoginValid)
                 }
-                .disabled(!isLoginValid)
                 .navigationDestination(isPresented: $showContentView) {
                     HallView()
+                        .navigationBarBackButtonHidden(true)
+                }
+                .navigationDestination(isPresented: $showRegisterView) {
+                    RegisterView(email: email, password: password)
                         .navigationBarBackButtonHidden(true)
                 }
             }
@@ -78,15 +108,13 @@ struct LoginView: View {
     }
     
     private func validateLogin() {
-        let nicknameValid = nickname.count <= 16
-        let passwordValid = !password.isEmpty
-        isLoginValid = nicknameValid && passwordValid
+        let emailValid = email.contains("@") && email.contains(".")
+        let passwordValid = password.count >= 8 && password.rangeOfCharacter(from: .decimalDigits) != nil && password.rangeOfCharacter(from: .letters) != nil
         
-        if !nicknameValid {
-            nicknameError = "帳號暱稱不得超過十六個字"
-        } else {
-            nicknameError = nil
-        }
+        isLoginValid = emailValid && passwordValid
+        
+        emailError = emailValid ? nil : "電子郵件無效"
+        passwordError = passwordValid ? nil : "密碼應大於8個字元並且包含數字以及英文"
     }
 }
 
