@@ -1,0 +1,25 @@
+[
+    {
+        "id": 101,
+        "name": "Rock",
+        "type": 0,
+        "attack": 1,
+        "hp": 1
+    },
+
+    {
+        "id": 102,
+        "name": "Paper",
+        "type": 1,
+        "attack": 1,
+        "hp": 1
+    },
+
+    {
+        "id": 103,
+        "name": "Scissors",
+        "type": 2,
+        "attack": 1,
+        "hp": 1
+    }
+]
