@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "BattleEngine.h"
+#include "Types.h"
 
 namespace RPS {
 
@@ -12,4 +12,4 @@ struct Card {
     int hp;
 };
 
-} 
+} // namespace RPS

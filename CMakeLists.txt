@@ -22,12 +22,16 @@ endif()
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(src/core)
+include_directories(
+    src/core
+    src/common)
 
 add_executable(RPS_TEST
     src/client/main.cpp
     src/core/BattleEngine.h
+    src/core/BattleManager.h
     src/core/Card.h
+    src/common/Types.h
 )
 
 target_link_libraries(RPS_TEST PRIVATE nlohmann_json)
